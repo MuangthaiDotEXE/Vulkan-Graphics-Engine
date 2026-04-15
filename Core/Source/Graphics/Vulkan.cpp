@@ -37,6 +37,7 @@ Core::Vulkan::Vulkan()
 {
 	CreateInstance();
 	SetupDebugMessenger();
+	PickPhysicalDevice();
 }
 
 Core::Vulkan::~Vulkan()
@@ -106,6 +107,31 @@ void Core::Vulkan::SetupDebugMessenger()
 		throw std::runtime_error("Failed to setup Vulkan graphics API debug messenger (Vulkan graphics API)");
 }
 
+void Core::Vulkan::PickPhysicalDevice()
+{
+	uint32_t deviceCount = 0;
+	vkEnumeratePhysicalDevices(instance, &deviceCount, nullptr);
+
+	if (deviceCount == 0)
+		throw std::runtime_error("Failed to find GPUs with Vulkan graphics API support (Vulkan graphics API)");
+
+	std::vector<VkPhysicalDevice> devices(deviceCount);
+	vkEnumeratePhysicalDevices(instance, &deviceCount, devices.data());
+
+	for (const auto& device : devices)
+	{
+		if (IsDeviceSuitable(device))
+		{
+			physicalDevice = device;
+
+			break;
+		}
+	}
+
+	if (physicalDevice == VK_NULL_HANDLE)
+		throw std::runtime_error("Failed to find a suitable GPU (Vulkan graphics API)");
+}
+
 void Core::Vulkan::Cleanup()
 {
 	if (enableValidationLayers)
@@ -164,6 +190,35 @@ bool Core::Vulkan::CheckValidationLayerSupport()
 	}
 
 	return true;
+}
+
+bool Core::Vulkan::IsDeviceSuitable(VkPhysicalDevice device)
+{
+	QueueFamilyIndices indices = FindQueueFamilies(device);
+
+	return indices.IsComplete();
+}
+
+Core::QueueFamilyIndices Core::Vulkan::FindQueueFamilies(VkPhysicalDevice device)
+{
+	QueueFamilyIndices indices;
+
+	uint32_t queueFamilyCount = 0;
+	vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, nullptr);
+
+	std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
+	vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, queueFamilies.data());
+
+	int i = 0;
+	for (const auto& queueFamily : queueFamilies)
+	{
+		if (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT) indices.graphicsFamily = i;
+		if (indices.IsComplete()) break;
+
+		i++;
+	}
+
+	return indices;
 }
 
 VKAPI_ATTR VkBool32 VKAPI_CALL Core::Vulkan::DebugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData)
