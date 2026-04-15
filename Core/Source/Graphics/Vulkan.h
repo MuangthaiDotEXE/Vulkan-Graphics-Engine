@@ -3,6 +3,10 @@
 #ifndef VULKAN_API_H
 #define VULKAN_API_H
 
+#include <print>
+#include <iostream>
+#include <cstdio>
+#include <vector>
 #include <stdexcept>
 
 #include <vulkan/vulkan.h>
@@ -16,6 +20,7 @@ namespace Core
 	{
 	private:
 		VkInstance instance;
+		VkDebugUtilsMessengerEXT debugMessenger;
 
 	public:
 		Vulkan();
@@ -26,7 +31,13 @@ namespace Core
 
 	private:
 		void CreateInstance();
+		void SetupDebugMessenger();
 		void Cleanup();
+
+		void PopulateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
+		std::vector<const char*> GetRequiredExtensions();
+		bool CheckValidationLayerSupport();
+		static VKAPI_ATTR VkBool32 VKAPI_CALL DebugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData);
 	};
 }
 
