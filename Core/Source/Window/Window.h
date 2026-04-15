@@ -35,6 +35,7 @@ namespace Core
 
 		void Render();
 		void Update();
+		void Input();
 
 		[[nodiscard]] bool ShouldClose() const;
 		GLFWwindow* GetWindow() const;

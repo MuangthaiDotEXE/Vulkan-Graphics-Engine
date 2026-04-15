@@ -16,8 +16,10 @@ namespace Core
 	struct AppData
 	{
 		WindowData windowData;
-		std::array<unsigned int, 3> version = { 0, 0, 0 };
-		std::string name = "App";
+		std::array<unsigned int, 3> appVersion = { 0, 0, 0 };
+		std::array<unsigned int, 3> engineVersion = { 0, 0, 0 };
+		std::string appName = "App";
+		std::string engineName = "Engine";
 	};
 
 	class App

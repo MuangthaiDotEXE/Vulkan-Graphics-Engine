@@ -49,6 +49,12 @@ void Core::Window::Update()
 	glfwPollEvents();
 }
 
+void Core::Window::Input()
+{
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE))
+		glfwSetWindowShouldClose(window, true);
+}
+
 bool Core::Window::ShouldClose() const
 {
 	return glfwWindowShouldClose(window);

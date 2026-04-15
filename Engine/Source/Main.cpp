@@ -10,8 +10,8 @@ int main(int argc, char** argv)
 	engineData.windowData.width = 854u;
 	engineData.windowData.height = 480u;
 	engineData.windowData.title = "Vulkan Graphics Engine";
-	engineData.name = "Vulkan Graphics Engine";
-	engineData.version = { 1, 0, 0 };
+	engineData.appName = "Vulkan Graphics Engine";
+	engineData.appVersion = { 1, 0, 0 };
 
 	try
 	{
