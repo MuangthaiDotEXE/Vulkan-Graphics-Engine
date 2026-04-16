@@ -7,7 +7,7 @@ Core::App::App(const AppData& appData)
 		this->appData.windowData.title = this->appData.appName;
 
 	window = std::make_unique<Window>(appData.windowData);
-	graphics = std::make_unique<Vulkan>();
+	graphics = std::make_unique<Vulkan>(window->GetWindow());
 }
 
 Core::App::~App()

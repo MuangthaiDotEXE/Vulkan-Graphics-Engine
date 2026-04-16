@@ -8,6 +8,7 @@
 #include <cstdio>
 #include <optional>
 #include <vector>
+#include <set>
 #include <stdexcept>
 
 #include <vulkan/vulkan.h>
@@ -20,10 +21,11 @@ namespace Core
 	struct QueueFamilyIndices
 	{
 		std::optional<uint32_t> graphicsFamily;
+		std::optional<uint32_t> presentFamily;
 
 		bool IsComplete()
 		{
-			return graphicsFamily.has_value();
+			return graphicsFamily.has_value() && presentFamily.has_value();
 		}
 	};
 
@@ -32,14 +34,16 @@ namespace Core
 	private:
 		VkInstance instance;
 		VkDebugUtilsMessengerEXT debugMessenger;
+		VkSurfaceKHR surface;
 
 		VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
 		VkDevice device;
 
 		VkQueue graphicsQueue;
+		VkQueue presentQueue;
 
 	public:
-		Vulkan();
+		Vulkan(GLFWwindow* window);
 		virtual ~Vulkan();
 
 		void Render() override;
@@ -48,6 +52,7 @@ namespace Core
 	private:
 		void CreateInstance();
 		void SetupDebugMessenger();
+		void CreateSurface();
 		void PickPhysicalDevice();
 		void CreateLogicalDevice();
 		void Cleanup();
