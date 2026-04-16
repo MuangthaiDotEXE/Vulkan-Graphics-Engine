@@ -6,7 +6,12 @@
 #include <print>
 #include <iostream>
 #include <cstdio>
+#include <cstring>
+#include <cstdlib>
+#include <cstdint>
+#include <limits>
 #include <optional>
+#include <algorithm>
 #include <vector>
 #include <set>
 #include <stdexcept>
@@ -29,6 +34,13 @@ namespace Core
 		}
 	};
 
+	struct SwapChainSupportDetails
+	{
+		VkSurfaceCapabilitiesKHR capabilities;
+		std::vector<VkSurfaceFormatKHR> formats;
+		std::vector<VkPresentModeKHR> presentModes;
+	};
+
 	class Vulkan final : public Graphics
 	{
 	private:
@@ -41,6 +53,11 @@ namespace Core
 
 		VkQueue graphicsQueue;
 		VkQueue presentQueue;
+
+		VkSwapchainKHR swapChain;
+		std::vector<VkImage> swapChainImages;
+		VkFormat swapChainImageFormat;
+		VkExtent2D swapChainExtent;
 
 	public:
 		Vulkan(GLFWwindow* window);
@@ -55,12 +72,18 @@ namespace Core
 		void CreateSurface();
 		void PickPhysicalDevice();
 		void CreateLogicalDevice();
+		void CreateSwapChain();
 		void Cleanup();
 
 		void PopulateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
 		std::vector<const char*> GetRequiredExtensions();
 		bool CheckValidationLayerSupport();
+		VkSurfaceFormatKHR ChooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
+		VkPresentModeKHR ChooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
+		VkExtent2D ChooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities);
+		SwapChainSupportDetails QuerySwapChainSupport(VkPhysicalDevice device);
 		bool IsDeviceSuitable(VkPhysicalDevice device);
+		bool CheckDeviceExtensionSupport(VkPhysicalDevice device);
 		QueueFamilyIndices FindQueueFamilies(VkPhysicalDevice device);
 		static VKAPI_ATTR VkBool32 VKAPI_CALL DebugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData);
 	};
