@@ -67,6 +67,8 @@ namespace Core
 		void Render() override;
 		void Update() override;
 
+		VkDevice GetLogicalDevice();
+
 	private:
 		void CreateInstance();
 		void SetupDebugMessenger();

@@ -20,10 +20,14 @@ compile_commands.json
 CTestTestfile.cmake
 _deps
 CMakeUserPresets.json
+CMakeSettings.json
 
 # CMake Build
 [Oo]ut/
 [Bb]uild/
+
+# Vulkan graphics API
+*.spv
 
 # Dear ImGui
 imgui.ini

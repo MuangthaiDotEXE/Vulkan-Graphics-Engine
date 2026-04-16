@@ -7,10 +7,14 @@ set(SOURCES
 	"Source/Graphics/Graphics.cpp"
 	"Source/Graphics/Vulkan.h"
 	"Source/Graphics/Vulkan.cpp"
+	"Source/Graphics/Shader/Shader.h"
+	"Source/Graphics/Shader/Shader.cpp"
 )
 
 add_library(Core STATIC)
 target_sources(Core PRIVATE ${SOURCES})
+
+add_definitions(-DProjectDirectory=\"${PROJECT_SOURCE_DIR}\")
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})
 

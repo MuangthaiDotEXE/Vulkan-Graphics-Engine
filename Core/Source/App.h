@@ -10,6 +10,7 @@
 #include "Window/Window.h"
 #include "Graphics/Graphics.h"
 #include "Graphics/Vulkan.h"
+#include "Graphics/Shader/Shader.h"
 
 namespace Core
 {

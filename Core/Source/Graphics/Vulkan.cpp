@@ -63,6 +63,11 @@ void Core::Vulkan::Update()
 {
 }
 
+VkDevice Core::Vulkan::GetLogicalDevice()
+{
+	return device;
+}
+
 void Core::Vulkan::CreateInstance()
 {
 	if (enableValidationLayers && !CheckValidationLayerSupport())
