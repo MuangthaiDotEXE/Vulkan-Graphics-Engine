@@ -34,6 +34,9 @@ namespace Core
 		VkDebugUtilsMessengerEXT debugMessenger;
 
 		VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
+		VkDevice device;
+
+		VkQueue graphicsQueue;
 
 	public:
 		Vulkan();
@@ -46,6 +49,7 @@ namespace Core
 		void CreateInstance();
 		void SetupDebugMessenger();
 		void PickPhysicalDevice();
+		void CreateLogicalDevice();
 		void Cleanup();
 
 		void PopulateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
