@@ -58,6 +58,7 @@ namespace Core
 		std::vector<VkImage> swapChainImages;
 		VkFormat swapChainImageFormat;
 		VkExtent2D swapChainExtent;
+		std::vector<VkImageView> swapChainImageViews;
 
 	public:
 		Vulkan(GLFWwindow* window);
@@ -73,6 +74,7 @@ namespace Core
 		void PickPhysicalDevice();
 		void CreateLogicalDevice();
 		void CreateSwapChain();
+		void CreateImageViews();
 		void Cleanup();
 
 		void PopulateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
