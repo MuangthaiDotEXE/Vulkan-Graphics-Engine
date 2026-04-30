@@ -18,6 +18,8 @@ namespace Core
 	private:
 		VkDevice device;
 
+		VkPipelineLayout pipelineLayout;
+
 	public:
 		Shader(VkDevice device, const std::string& vertexPath, const std::string& fragmentPath);
 		virtual ~Shader();
